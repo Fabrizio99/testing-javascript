@@ -1,11 +1,11 @@
-const thumbWar = require("../thumb-war");
+const thumbwar = require("../thumb-war");
 const utils = require("../utils");
 
-test("returns winner", () => {
+test("should return winner", () => {
   jest.spyOn(utils, "getWinner");
   utils.getWinner.mockImplementation((p1, p2) => p1);
 
-  const winner = thumbWar("Fabrizio", "Pedro");
+  const winner = thumbwar("Fabrizio", "Pedro");
 
   expect(winner).toBe("Fabrizio");
 
@@ -14,6 +14,5 @@ test("returns winner", () => {
     ["Fabrizio", "Pedro"],
   ]);
 
-  // cleanup
   utils.getWinner.mockRestore();
 });

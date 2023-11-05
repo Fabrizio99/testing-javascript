@@ -1,12 +1,14 @@
-function fn(callback = () => {}) {
+function fn(impl = () => {}) {
   const mockFn = (...args) => {
     mockFn.mock.calls.push(args);
-    return callback(...args);
+    return impl(...args);
   };
 
-  mockFn.mock = { calls: [] };
+  mockFn.mock = {
+    calls: [],
+  };
 
-  mockFn.mockImplementation = (newCallback) => (callback = newCallback);
+  mockFn.mockImplementation = (newImpl) => (impl = newImpl);
 
   return mockFn;
 }
@@ -21,18 +23,18 @@ require.cache[utilsPath] = {
   },
 };
 
-// console.log(require.cache);
-
 const assert = require("assert");
-const thumbWar = require("../thumb-war");
+const thumbwar = require("../thumb-war");
 const utils = require("../utils");
 
-const winner = thumbWar("Fabrizio", "Pedro");
+const winner = thumbwar("Fabrizio", "Pedro");
+
 assert.strictEqual(winner, "Fabrizio");
+
 assert.deepStrictEqual(utils.getWinner.mock.calls, [
   ["Fabrizio", "Pedro"],
   ["Fabrizio", "Pedro"],
 ]);
 
-// cleanup
+// clean up
 delete require.cache[utilsPath];

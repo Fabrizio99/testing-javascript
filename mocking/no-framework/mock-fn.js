@@ -1,26 +1,27 @@
 const assert = require("assert");
-const thumbWar = require("../thumb-war");
+const thumbwar = require("../thumb-war");
 const utils = require("../utils");
 
-function fn(callback) {
+function fn(impl) {
   const mockFn = (...args) => {
     mockFn.mock.calls.push(args);
-    return callback(...args);
+    return impl(...args);
   };
 
-  mockFn.mock = { calls: [] };
-
+  mockFn.mock = {
+    calls: [],
+  };
   return mockFn;
 }
+
 const originalGetWinner = utils.getWinner;
 utils.getWinner = fn((p1, p2) => p1);
-
-const winner = thumbWar("Fabrizio", "Pedro");
+const winner = thumbwar("Fabrizio", "Pedro");
 assert.strictEqual(winner, "Fabrizio");
+
 assert.deepStrictEqual(utils.getWinner.mock.calls, [
   ["Fabrizio", "Pedro"],
   ["Fabrizio", "Pedro"],
 ]);
 
-// cleanup
 utils.getWinner = originalGetWinner;
